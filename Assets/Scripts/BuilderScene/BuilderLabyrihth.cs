@@ -19,19 +19,19 @@ public class BuilderLabyrihth : MonoBehaviour
 		{
 			
 		stringToEdit = "Level" + (	Menu.NamesArr.Length + 1 ).ToString();
-		CubesOnScene = new GameObject[Menu.ScreenWidth / Menu.CubeSize, Menu.ScreenHeight / Menu.CubeSize];
+		CubesOnScene = new GameObject[Menu.CubeNumX, Menu.CubeNumY];
 		
 		
 		
-		for (var i = 0; i< Menu.ScreenWidth / Menu.CubeSize; i ++) {
-						for (var j = 0; j<Menu.ScreenHeight / Menu.CubeSize; j++) {
+		for (var i = 0; i< Menu.CubeNumX; i ++) {
+						for (var j = 0; j<Menu.CubeNumY; j++) {
 								CubesOnScene [i, j] = GameObject.CreatePrimitive (PrimitiveType.Cube) as GameObject;
 								CubesOnScene [i, j].name = "Wall";
 								CubesOnScene [i, j].transform.renderer.material.color = Color.white;
 								CubesOnScene [i, j].AddComponent ("BuilderWallObject");
-								CubesOnScene [i, j].transform.position = new Vector3 ((Menu.ScreenWidth / -2 + Menu.CubeSize / 2) + i * Menu.CubeSize, (Menu.ScreenHeight / -2 + Menu.CubeSize / 2) + j * Menu.CubeSize, -1);
+								CubesOnScene [i, j].transform.position = new Vector3 (( (Menu.CubeNumX*Menu.CubeSize) / -2 + Menu.CubeSize / 2) + i * Menu.CubeSize, ( (Menu.CubeNumY*Menu.CubeSize) / -2 + Menu.CubeSize / 2) + j * Menu.CubeSize, -1);
 								CubesOnScene [i, j].transform.localScale = new Vector3 (Menu.CubeSize, Menu.CubeSize, Menu.CubeSize);
-								if (i == 0 || j == 0 || i + 1 == Menu.ScreenWidth / Menu.CubeSize || j + 1 == Menu.ScreenHeight / Menu.CubeSize) {
+								if (i == 0 || j == 0 || i + 1 == Menu.CubeNumX || j + 1 == Menu.CubeNumY ) {
 										CubesOnScene [i, j].transform.renderer.material.color = Color.green;
 								}
 						}
@@ -40,10 +40,10 @@ public class BuilderLabyrihth : MonoBehaviour
 
 		void ColorRemove ()
 		{
-				for (var i = 0; i< Menu.ScreenWidth / Menu.CubeSize; i ++) {
-						for (var j = 0; j<Menu.ScreenHeight / Menu.CubeSize; j++) {
+				for (var i = 0; i< Menu.CubeNumX; i ++) {
+						for (var j = 0; j<Menu.CubeNumY; j++) {
 								CubesOnScene [i, j].transform.renderer.material.color = Color.white;
-								if (i == 0 || j == 0 || i + 1 == Menu.ScreenWidth / Menu.CubeSize || j + 1 == Menu.ScreenHeight / Menu.CubeSize) {
+								if (i == 0 || j == 0 || i + 1 == Menu.CubeNumX || j + 1 == Menu.CubeNumY ) {
 										CubesOnScene [i, j].transform.renderer.material.color = Color.green;
 								}
 						}
@@ -58,9 +58,9 @@ public class BuilderLabyrihth : MonoBehaviour
 				if (GhostSpawner == false || PlayerSpawner == false) {
 					SaveError.text = "Set ghost/player spawners";
 				} else {
-						int[,] LevelArr = new int [Menu.ScreenWidth / Menu.CubeSize, Menu.ScreenHeight / Menu.CubeSize];
-						for (var i = 0; i< Menu.ScreenWidth / Menu.CubeSize; i ++) {
-								for (var j = 0; j<Menu.ScreenHeight / Menu.CubeSize; j++) {
+						int[,] LevelArr = new int [ Menu.CubeNumX, Menu.CubeNumY];
+						for (var i = 0; i<  Menu.CubeNumX; i ++) {
+								for (var j = 0; j< Menu.CubeNumY; j++) {
 										if (CubesOnScene [i, j] .renderer.material.color == Color.yellow) {
 												LevelArr [i, j] = 3;
 										} else 
@@ -74,8 +74,8 @@ public class BuilderLabyrihth : MonoBehaviour
 								}
 						}
 						StreamWriter writer = new StreamWriter (Application.dataPath + "/levels/"+stringToEdit+".txt"); //Сохраняем матрицу уровня в отдельный файл
-						for (var i = 0; i< Menu.ScreenWidth / Menu.CubeSize; i ++) {
-								for (var j = 0; j<Menu.ScreenHeight / Menu.CubeSize; j++) {
+						for (var i = 0; i<  Menu.CubeNumX; i ++) {
+								for (var j = 0; j< Menu.CubeNumY; j++) {
 										writer.Write (LevelArr [i, j]);
 								}
 						}
@@ -98,9 +98,9 @@ public class BuilderLabyrihth : MonoBehaviour
 
 		void OnGUI ()
 		{
-			int buttonWidth = 100 * Menu.ScreenWidth / 320;
+			int buttonWidth = 100 ;
 			GUIStyle style = GUI.skin.GetStyle ("Button");
-			style.fontSize =12 *  Menu.ScreenWidth / 320 ;
+			style.fontSize =12  ;
 			if (GUI.Button (new Rect (Screen.width / 2 - buttonWidth - 10 - buttonWidth , 10, buttonWidth, Menu.CubeSize+5), "Wall")) {
 							CubeType = 1;
 					}
