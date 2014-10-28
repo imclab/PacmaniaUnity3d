@@ -29,7 +29,7 @@ public class PlayerClass : MonoBehaviour {
 			Napr = 1;
 			if(Stay == 1 && ( GameEngine.Walls[NumAtX,NumAtY-1] == null )  ){
 				NaprOsn = 1;
-			}
+			} 
 		} else 
 		if (Input.GetKeyDown ("up")) {
 			Napr = 2;
@@ -59,6 +59,12 @@ public class PlayerClass : MonoBehaviour {
 			} else {
 				NumAtY-=1;
 			}
+			if(Napr == 1 && ( GameEngine.Walls[NumAtX,NumAtY-1] == null)){
+				NaprOsn = 1;
+			} else 
+			if (Napr == 2 && ( GameEngine.Walls[NumAtX,NumAtY+1] == null)){
+				NaprOsn = 2;
+			} else
 			if(Napr == 3 && ( GameEngine.Walls[NumAtX+1,NumAtY] == null)){
 				NaprOsn = 3;
 			} else 
@@ -80,6 +86,13 @@ public class PlayerClass : MonoBehaviour {
 			} else 
 			if (Napr == 2 && ( GameEngine.Walls[NumAtX,NumAtY+1] == null)){
 				NaprOsn = 2;
+			} else
+			if(Napr == 3 && ( GameEngine.Walls[NumAtX+1,NumAtY] == null)){
+				NaprOsn = 3;
+			} else 
+			if (Napr == 4 && ( GameEngine.Walls[NumAtX-1,NumAtY] == null)){
+				NaprOsn = 4;
+
 			}
 			Deltax = 0.0f;
 		}

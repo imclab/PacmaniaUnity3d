@@ -6,6 +6,7 @@ using System;
 public class GameEngine : MonoBehaviour {
 
 	static public GameObject[,]  Walls;
+	static public int[,]  LevelObjects;
 	public Camera SceneCam;
 	
 	public GameObject Player;
@@ -17,9 +18,8 @@ public class GameEngine : MonoBehaviour {
 		var  LevelArray = TextArrayFromFile.ReadToEnd();
 		TextArrayFromFile.Close();
 		
-		
 		Walls = new GameObject[Menu.CubeNumX, Menu.CubeNumY];
-		
+		int [,]  LevelObjects= new int[Menu.CubeNumX,Menu.CubeNumY];
 		var ArrayCount = 0;
 		var PlaneLevel = GameObject.CreatePrimitive (PrimitiveType.Plane) as GameObject;
 		PlaneLevel.transform.localScale = new Vector3 (Menu.CubeSize* Menu.CubeNumX / 10 , 1, Menu.CubeSize * Menu.CubeNumY / 10);
@@ -36,16 +36,21 @@ public class GameEngine : MonoBehaviour {
 									Walls [i, j].transform.renderer.material.color = Color.green;
 									Walls [i, j].transform.position = new Vector3 (((Menu.CubeNumX * Menu.CubeSize) / -2 + Menu.CubeSize / 2) + i * Menu.CubeSize, ((Menu.CubeNumY*Menu.CubeSize) / -2 + Menu.CubeSize / 2) + j * Menu.CubeSize, -1);
 									Walls [i, j].transform.localScale = new Vector3 (Menu.CubeSize, Menu.CubeSize, Menu.CubeSize);
-								} 
-								if (LevelArray[ArrayCount] == '2' ) {
-
+									LevelObjects[i, j] = 1;
 								}
+								if (LevelArray[ArrayCount] == '2' ) {
+									LevelObjects[i, j] = 2;
+								} 
 								if (LevelArray[ArrayCount] == '3' ) {
 										//SceneCam.transform.position  =transform.position = new Vector3 (((Menu.CubeNumX * Menu.CubeSize) / -2 + Menu.CubeSize / 2) + i * Menu.CubeSize, ((Menu.CubeNumY*Menu.CubeSize) / -2 + Menu.CubeSize / 2) + j * Menu.CubeSize - 60, -60);
 										Player.transform.position  = transform.position = new Vector3 (((Menu.CubeNumX * Menu.CubeSize) / -2 + Menu.CubeSize / 2) + i * Menu.CubeSize, ((Menu.CubeNumY*Menu.CubeSize) / -2 + Menu.CubeSize / 2) + j * Menu.CubeSize, -1);
 										Player.transform.localScale = new Vector3 (Menu.CubeSize, Menu.CubeSize, Menu.CubeSize);
 										PlayerClass.NumAtX = i;
 										PlayerClass.NumAtY = j	;
+										LevelObjects[i, j] = 3;
+								} 
+								if (LevelArray[ArrayCount] == '0' ) {
+									LevelObjects[i, j] = 0;
 								}
 							}
 								ArrayCount++;
